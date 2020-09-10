@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: poi
+        image: registryiwn0369.azurecr.io/tripinsights/poi
+        # resources:
+        #   requests:
+        #     cpu: 100m
+        #     memory: 128Mi
+        #   limits:
+        #     cpu: 250m
+        #     memory: 256Mi
+        ports:
+        - containerPort: 80
+          name: poi
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: azure-vote-back
+# spec:
+#   ports:
+#   - port: 6379
+#   selector:
+#     app: azure-vote-back
