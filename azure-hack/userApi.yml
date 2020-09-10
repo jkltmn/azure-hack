@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userApi
+  name: userapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: userApi
+      app: userapi
   template:
     metadata:
       labels:
-        app: userApi
+        app: userapi
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: user-api_1.0
+      - name: userapi
         image: registryiwn0369.azurecr.io/user-java/user-api_1.0
         ports:
         - containerPort: 80
-          name: user-api_1.0
+          name: userapi
         env:
         - name: SQL_USER
           value: "sqladminiWn0369"
@@ -31,10 +31,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: userApi
+  name: userapi
 spec:
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: userApi
+    app: userapi
