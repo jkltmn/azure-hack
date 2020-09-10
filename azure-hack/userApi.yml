@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userApi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userApi
+  template:
+    metadata:
+      labels:
+        app: userApi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: user-api_1.0
+        image: registryiwn0369.azurecr.io/user-java/user-api_1.0
+        ports:
+        - containerPort: 80
+          name: user-api_1.0
+        env:
+        - name: SQL_USER
+          value: "sqladminiWn0369"
+        - name: SQL_PASSWORD
+          value: "zM1lt3Gi7"
+        - name: SQL_SERVER
+          value: "sqlserveriwn0369.database.windows.net"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: userApi
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: userApi
