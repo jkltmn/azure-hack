@@ -17,23 +17,26 @@ spec:
       containers:
       - name: poi
         image: registryiwn0369.azurecr.io/tripinsights/poi
-        # resources:
-        #   requests:
-        #     cpu: 100m
-        #     memory: 128Mi
-        #   limits:
-        #     cpu: 250m
-        #     memory: 256Mi
         ports:
         - containerPort: 80
           name: poi
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: azure-vote-back
-# spec:
-#   ports:
-#   - port: 6379
-#   selector:
-#     app: azure-vote-back
+        env:
+        - name: SQL_USER
+          value: "sqladminiWn0369"
+        - name: SQL_PASSWORD
+          value: "zM1lt3Gi7"
+        - name: SQL_SERVER
+          value: "sqlserveriwn0369.database.windows.net"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: poi
