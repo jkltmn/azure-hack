@@ -22,7 +22,7 @@ spec:
           name: tripviewer
         env:
         - name: TRIPS_API_ENDPOINT
-          value: "http://tripapi"
+          value: "http://trips"
         - name: USERPROFILE_API_ENDPOINT
           value: "http://userprofile"
 ---
