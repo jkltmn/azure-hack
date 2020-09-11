@@ -18,16 +18,22 @@ spec:
       containers:
       - name: userapi
         image: registryiwn0369.azurecr.io/user-java/user-api_1.0
+        volumeMounts:
+        - name: secrets-store-inline
+          mountPath: "/secrets"
+          readOnly: true
         ports:
         - containerPort: 80
           name: userapi
-        env:
-        - name: SQL_USER
-          value: "sqladminiWn0369"
-        - name: SQL_PASSWORD
-          value: "zM1lt3Gi7"
-        - name: SQL_SERVER
-          value: "sqlserveriwn0369.database.windows.net"
+      volumes:
+      - name: secrets-store-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: keyvault
+          nodePublishSecretRef:
+              name: secrets-store-creds 
 ---
 apiVersion: v1
 kind: Service
