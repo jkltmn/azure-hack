@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi
+  namespace: web-apis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi
+  template:
+    metadata:
+      labels:
+        app: poi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: poi        
+        image: registryiwn0369.azurecr.io/tripinsights/poi
+        ports:
+        - containerPort: 80
+          name: poi
+        env:
+        - name: SQL_USER
+          value: "sqladminiWn0369"
+        - name: SQL_PASSWORD
+          value: "zM1lt3Gi7"
+        - name: SQL_SERVER
+          value: "sqlserveriwn0369.database.windows.net"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: poi
+  namespace: web-apis
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: poi
+

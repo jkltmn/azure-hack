@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+  namespace: web-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: tripviewer
+        image: registryiwn0369.azurecr.io/tripinsights/tripviewer
+        ports:
+        - containerPort: 80
+          name: tripviewer
+        env:
+        - name: TRIPS_API_ENDPOINT
+          value: "http://tripapi"
+        - name: USERPROFILE_API_ENDPOINT
+          value: "http://userprofile"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tripviewer
+  namespace: web-frontend
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: tripviewer
